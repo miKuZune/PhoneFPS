@@ -20,6 +20,7 @@ public class Explode : MonoBehaviour,IState {
 		if (distToPlayer <= distToDealDamage) 
 		{
 			player.GetComponent<HealthHandler> ().TakeHealth (owner.GetComponent<Runners> ().damageToDeal);
+            GameObject.Find("UImanager").GetComponent<UIManager>().ShowDamageIndicator();
 		}
 		Destroy (owner);
 	}

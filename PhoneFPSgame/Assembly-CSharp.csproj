@@ -47,11 +47,16 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Bullet.cs" />
+     <Compile Include="Assets\Scripts\Enemies\LookTowardPlayer.cs" />
+     <Compile Include="Assets\Scripts\Enemies\Runners.cs" />
      <Compile Include="Assets\Scripts\HealthHandler.cs" />
-     <Compile Include="Assets\Scripts\LookTowardPlayer.cs" />
-     <Compile Include="Assets\Scripts\PlayerController.cs" />
-     <Compile Include="Assets\Scripts\UIManager.cs" />
-     <Compile Include="Assets\Scripts\VirtualJoystick.cs" />
+     <Compile Include="Assets\Scripts\Player\PlayerController.cs" />
+     <Compile Include="Assets\Scripts\StateMachine.cs" />
+     <Compile Include="Assets\Scripts\States\Explode.cs" />
+     <Compile Include="Assets\Scripts\States\RunAtPlayer.cs" />
+     <Compile Include="Assets\Scripts\States\Wander.cs" />
+     <Compile Include="Assets\Scripts\UI\UIManager.cs" />
+     <Compile Include="Assets\Scripts\UI\VirtualJoystick.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

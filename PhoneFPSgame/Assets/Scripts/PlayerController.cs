@@ -26,6 +26,11 @@ public class PlayerController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         RB = GetComponent<Rigidbody>();
+
+		if (Application.isEditor) {
+			Cursor.lockState = CursorLockMode.Locked;
+			Cursor.visible = false;
+		}
 	}
 	
     void Shoot()
@@ -47,13 +52,63 @@ public class PlayerController : MonoBehaviour {
         isShooting = false;
     }
 
-    void Turn()
+	void EditorTurn()
+	{
+		float xRot = 0, yRot = 0;
+
+		xRot = Input.GetAxis ("Mouse Y");
+		yRot = Input.GetAxis ("Mouse X");
+
+		Vector3 bodyRot = new Vector3 (0, yRot, 0);
+		Vector3 camRot = new Vector3(-xRot,0,0);
+
+		transform.Rotate (bodyRot * Time.deltaTime * 75);
+		Camera.main.transform.Rotate (camRot * Time.deltaTime * 75);
+	}
+
+	void EditorMove()
+	{
+		float x = Input.GetAxis ("Horizontal") * Time.deltaTime * moveSpeed;
+		float z = Input.GetAxis ("Vertical") * Time.deltaTime * moveSpeed;
+		transform.Translate (-z, 0, x);
+	}
+
+	void PhoneMove()
+	{
+		if (movementJoyStick.InputDirection != Vector3.zero)
+		{
+			forwardDir = transform.forward * movementJoyStick.InputDirection.x;
+			sidewaysDir = -transform.right * movementJoyStick.InputDirection.z;
+
+		}
+		else
+		{
+			forwardDir = Vector3.zero;
+
+			sidewaysDir = Vector3.zero;
+		}
+
+		if(isShooting)
+		{
+			Shoot();
+		}
+
+		Vector3 overallDir = forwardDir + sidewaysDir;
+
+		overallDir *= moveSpeed;
+
+		Vector3 newVel = RB.velocity;
+		newVel.x = overallDir.x;
+		newVel.z = overallDir.z;
+		RB.velocity = newVel;
+	}
+
+    void PhoneTurn()
     {
         if (turningJoyStick.InputDirection != Vector3.zero)
         {
             turner.x = -turningJoyStick.InputDirection.z;
             turner.y = turningJoyStick.InputDirection.x;
-
         }
         else
         {
@@ -69,33 +124,18 @@ public class PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         timeSinceLastFire += Time.deltaTime;
-        Turn();
 
-        if (movementJoyStick.InputDirection != Vector3.zero)
-        {
-            forwardDir = transform.forward * movementJoyStick.InputDirection.x;
-            sidewaysDir = -transform.right * movementJoyStick.InputDirection.z;
-            
-        }
-        else
-        {
-            forwardDir = Vector3.zero;
-            
-            sidewaysDir = Vector3.zero;
-        }
+		if (!Application.isEditor) {
+			PhoneTurn ();
+			PhoneMove ();
+		} else {
+			
+			EditorTurn ();
+			EditorMove ();
+			if (Input.GetKey(KeyCode.Mouse0)) {
+				Shoot ();
+			}
+		}
 
-        if(isShooting)
-        {
-            Shoot();
-        }
-
-        Vector3 overallDir = forwardDir + sidewaysDir;
-
-        overallDir *= moveSpeed;
-
-        Vector3 newVel = RB.velocity;
-        newVel.x = overallDir.x;
-        newVel.z = overallDir.z;
-        RB.velocity = newVel;
 	}
 }

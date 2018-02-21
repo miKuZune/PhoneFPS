@@ -13,6 +13,8 @@ public class Explode : MonoBehaviour,IState {
 
 	const float timeTillExplosion = 1.5f;
 	const float distToDealDamage = 5.0f;
+    bool hasExploded = false;
+
 
 	void DoExplode()
 	{
@@ -22,7 +24,7 @@ public class Explode : MonoBehaviour,IState {
 			player.GetComponent<HealthHandler> ().TakeHealth (owner.GetComponent<Runners> ().damageToDeal);
             GameObject.Find("UImanager").GetComponent<UIManager>().ShowDamageIndicator();
 		}
-		Destroy (owner);
+        owner.GetComponent<HealthHandler>().TakeHealth(20000);
 	}
 
 	public void Enter()
@@ -34,8 +36,9 @@ public class Explode : MonoBehaviour,IState {
 	{
 		timeWaited += Time.deltaTime;
 
-		if (timeWaited > timeTillExplosion)
+		if (timeWaited > timeTillExplosion && !hasExploded)
 		{
+            hasExploded = true;
 			DoExplode ();
 			Debug.Log ("Explode");
 		}

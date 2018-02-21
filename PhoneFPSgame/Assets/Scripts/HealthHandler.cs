@@ -6,7 +6,6 @@ public class HealthHandler : MonoBehaviour {
 
     public int health;
 
-
     public void TakeHealth(int healthToTake)
     {
         health -= healthToTake;
@@ -31,7 +30,12 @@ public class HealthHandler : MonoBehaviour {
     {
         if(health <= 0)
         {
-            Destroy(this.gameObject);
+            if(gameObject.tag != "Player")
+            {
+                GameObject.Find("GameManager").GetComponent<GameManager>().EnemyKilled(20);
+                Destroy(this.gameObject);
+            }
+            
         }
     }
 

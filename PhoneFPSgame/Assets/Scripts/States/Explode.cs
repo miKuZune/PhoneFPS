@@ -40,7 +40,6 @@ public class Explode : MonoBehaviour,IState {
 		{
             hasExploded = true;
 			DoExplode ();
-			Debug.Log ("Explode");
 		}
 	}
 	public void Exit()

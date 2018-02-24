@@ -4,18 +4,27 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour {
 
-    Vector3 direction = Vector3.zero;
+    public Vector3 direction = Vector3.zero;
     public float speed = 1.5f;
 
     public int damage = 20;
 
     const float timeToLive = 7.5f;
     float timeAlive = 0;
+    public GameObject owner;
 
 	// Use this for initialization
 	void Start () {
-        direction = Camera.main.transform.forward;
-        transform.rotation = Camera.main.transform.rotation;
+        if(owner == null)
+        {
+            direction = Camera.main.transform.forward;
+            transform.rotation = Camera.main.transform.rotation;
+        }
+        else
+        {
+
+        }
+        
 	}
 	
     void CheckForDespawn()
@@ -38,6 +47,10 @@ public class Bullet : MonoBehaviour {
 
     void OnTriggerEnter(Collider coll)
     {
+        if(coll.gameObject == owner)
+        {
+            return;
+        }
         if(coll.gameObject.tag == "Enemy" || coll.gameObject.tag == "Player")
         {
             if(coll.GetComponent<HealthHandler>())

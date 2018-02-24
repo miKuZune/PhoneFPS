@@ -21,7 +21,6 @@ public class GameManager : MonoBehaviour {
         enemiesInLevel--;
         enemiesKilled++;
         score += scoreToAdd;
-        Debug.Log(enemiesInLevel);
     }
     void NewRound()
     {

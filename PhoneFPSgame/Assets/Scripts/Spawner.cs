@@ -13,8 +13,7 @@ public class Spawner : MonoBehaviour {
 
     public void Spawn()
     {
-        int enemyID = Random.Range(0, enemies.Length - 1);
-
+        int enemyID = Random.Range(0, enemies.Length);
         Instantiate(enemies[enemyID], transform.position, Quaternion.identity);
 
         numOfEnemiesToSpawn--;

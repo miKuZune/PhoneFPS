@@ -16,17 +16,20 @@ public class RunAtPlayer : IState {
 
 	public void Enter()
 	{
+
 		NMA = owner.GetComponent<NavMeshAgent> ();
-		player = GameObject.FindGameObjectWithTag ("Player");
-		Debug.Log ("Chasing player");
+        NMA.speed = 3.5f;
+        player = GameObject.FindGameObjectWithTag ("Player");
+		//Debug.Log ("Chasing player");
 	}
 	public void Execute()
 	{
+        Debug.Log("RunningAtPlayer");
 		NMA.destination = player.transform.position;
 	}
 	public void Exit()
 	{
 		NMA.speed = 0;
-		Debug.Log ("Not chasing player anymore");
+		//Debug.Log ("Not chasing player anymore");
 	}
 }

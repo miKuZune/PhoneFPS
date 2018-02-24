@@ -14,14 +14,30 @@ public class Shooters : MonoBehaviour {
     public float minShootDistance;
     public float maxShootDistance;
 
+    public GameObject bullet;
+    public float fireRate;
+
     bool isShooting;
 	// Use this for initialization
 	void Start () {
         isShooting = false;
         SM = new StateMachine();
         player = GameObject.FindGameObjectWithTag("Player");
+        SM.ChangeState(new RunAtPlayer(this.gameObject));
+
+        
 	}
 	
+    public void Shoot()
+    {
+        GameObject bulletShot = Instantiate(bullet, transform.position, Quaternion.identity);
+        bulletShot.GetComponent<Bullet>().owner = this.gameObject;
+
+        Vector3 dirToPlayer = player.transform.position - transform.position;
+        dirToPlayer.Normalize();
+        bulletShot.GetComponent<Bullet>().direction = dirToPlayer;
+    }
+
     bool InShootingRange()
     {
         bool isInRange = false;
@@ -32,27 +48,20 @@ public class Shooters : MonoBehaviour {
             isInRange = true;
         }
 
-
         return isInRange;
     }
 
 	// Update is called once per frame
 	void Update ()
     {
-
-        if(!isShooting)
+        if(InShootingRange() && !isShooting)
         {
-            if(InShootingRange())
-            {
-                //Shoot
-            }
-        }
-        else
+            SM.ChangeState(new ShootAtPlayer(this.gameObject));
+            isShooting = true;
+        }else if(!InShootingRange() && isShooting)
         {
-            if(!InShootingRange())
-            {
-                //Stop shooting
-            }
+            SM.ChangeState(new RunAtPlayer(this.gameObject));
+            isShooting = false;
         }
 
 

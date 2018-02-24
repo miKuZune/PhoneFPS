@@ -10,6 +10,9 @@ public class UIManager : MonoBehaviour {
 	public GameObject fireButton;
     public GameObject damageIndicator;
     public Scrollbar Health;
+    public Text round;
+    public Text eneLeft;
+    public Text eneKilled;
 
     HealthHandler playerHealth;
 
@@ -28,6 +31,19 @@ public class UIManager : MonoBehaviour {
 			//just fucking do it
 		}
 	}
+
+    public void UpdateRound(int newRound)
+    {
+        round.text = "Round: " + newRound;
+    }
+    public void UpdateEnemiesLeft(int enemiesLeft)
+    {
+        eneLeft.text = "Enemies left: " + enemiesLeft;
+    }
+    public void UpdateEnemiesKilled(int enemiesKilled)
+    {
+        eneKilled.text = "Enemies killed: " + enemiesKilled;
+    }
 
     public void HideDamageIndicator()
     {

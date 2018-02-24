@@ -20,7 +20,14 @@ public class GameManager : MonoBehaviour {
     {
         enemiesInLevel--;
         enemiesKilled++;
+
+        UIManager UI = GameObject.Find("UImanager").GetComponent<UIManager>();
+        UI.UpdateEnemiesLeft(enemiesInLevel);
+        UI.UpdateEnemiesKilled(enemiesKilled);
+
         score += scoreToAdd;
+
+
     }
     void NewRound()
     {
@@ -31,22 +38,30 @@ public class GameManager : MonoBehaviour {
             enemiesInLevel++;
         }
         round++;
-        enemiesToSpawnNextRound = 10 * round;
+        enemiesToSpawnNextRound = 10 * (round);
+        UIManager UI = GameObject.Find("UImanager").GetComponent<UIManager>();
+        UI.UpdateRound(round);
+        UI.UpdateEnemiesLeft(enemiesInLevel);
+        Debug.Log(round);
     }
 
 	// Use this for initialization
 	void Start () {
         enemiesToSpawnNextRound = 10;
-        round = 1;
 
-        NewRound();
+        UIManager UI = GameObject.Find("UImanager").GetComponent<UIManager>();
+        UI.UpdateEnemiesLeft(enemiesInLevel);
+        UI.UpdateEnemiesKilled(enemiesKilled);
+        UI.UpdateRound(round );
+
+        
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if(enemiesInLevel <= 0)
+        if (enemiesInLevel <= 0)
         {
             NewRound();
         }
-	}
+    }        
 }

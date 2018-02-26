@@ -66,7 +66,8 @@ public class Bullet : MonoBehaviour {
                 Debug.Log("No health handler found");
             }
             
-            Destroy(this.gameObject);
+            
         }
+        Destroy(this.gameObject);
     }
 }

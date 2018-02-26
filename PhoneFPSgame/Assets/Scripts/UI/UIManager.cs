@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour {
 
@@ -9,6 +10,7 @@ public class UIManager : MonoBehaviour {
 	public GameObject turnJoyStick;
 	public GameObject fireButton;
     public GameObject damageIndicator;
+    public GameObject GameOverGO;
     public Scrollbar Health;
     public Text round;
     public Text eneLeft;
@@ -58,6 +60,7 @@ public class UIManager : MonoBehaviour {
     public void Hide()
     {
         damageIndicator.SetActive(false);
+        GameOverGO.SetActive(false);
     }
 
 	public void HidePhoneUI()
@@ -67,6 +70,38 @@ public class UIManager : MonoBehaviour {
 		turnJoyStick.SetActive (false);
 		fireButton.SetActive (false);
 	}
+
+    public void Restart()
+    {
+        Scene thisScene = new Scene();
+        thisScene = SceneManager.GetActiveScene();
+
+        SceneManager.LoadScene(thisScene.name);
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        Time.timeScale = 1;
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+
+    public void GameOver()
+    {
+        GameOverGO.SetActive(true);
+        if (Application.isEditor)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+
+        GameObject.Find("EndGameScore").GetComponent<Text>().text = "Score: " + GameObject.FindObjectOfType<GameManager>().GetComponent<GameManager>().GetScore();
+
+        Time.timeScale = 0;
+    }
+
     private void Update()
     {
         if(damageIndicator.active)
@@ -75,6 +110,7 @@ public class UIManager : MonoBehaviour {
             if(timeActiveDmg > dmgIndicatorActiveTime)
             {
                 HideDamageIndicator();
+                timeActiveDmg = 0;
             }
         }
 

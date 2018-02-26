@@ -21,7 +21,14 @@ public class ShootAtPlayer : IState {
 
         if(timeSinceLastShot > fireRate)
         {
-            
+
+            //Rotate towards the player
+            Vector3 targetDir = player.transform.position - owner.transform.position;
+            float turnSpeed = 20 * Time.deltaTime;
+            Vector3 newDir = Vector3.RotateTowards(owner.transform.forward, targetDir, turnSpeed, 0.0f);
+            owner.transform.rotation = Quaternion.LookRotation(newDir);
+
+
             owner.GetComponent<Shooters>().Shoot();
             timeSinceLastShot = 0;
         }

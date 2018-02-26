@@ -10,6 +10,8 @@ public class Runners : MonoBehaviour {
 
 	public int damageToDeal;
 
+    public Sprite explodeSprite;
+
 	bool isExploding;
 
 	bool IsCloseToPlayer()
@@ -37,6 +39,7 @@ public class Runners : MonoBehaviour {
 		if (IsCloseToPlayer () && !isExploding) {
 			SM.ChangeState (new Explode (this.gameObject));
 			isExploding = true;
+            GetComponentInChildren<SpriteRenderer>().sprite = explodeSprite;
 		}
 
 		SM.Update ();

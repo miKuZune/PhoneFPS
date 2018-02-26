@@ -29,6 +29,11 @@ public class GameManager : MonoBehaviour {
 
 
     }
+
+    public int GetScore()
+    {
+        return score;
+    }
     void NewRound()
     {
         for(int i = 0; i < enemiesToSpawnNextRound; i++)

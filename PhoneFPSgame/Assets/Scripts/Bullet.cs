@@ -56,6 +56,10 @@ public class Bullet : MonoBehaviour {
             if(coll.GetComponent<HealthHandler>())
             {
                 coll.GetComponent<HealthHandler>().TakeHealth(damage);
+                if(coll.gameObject.tag == "Player")
+                {
+                    GameObject.Find("UImanager").GetComponent<UIManager>().ShowDamageIndicator();
+                }
             }
             else
             {

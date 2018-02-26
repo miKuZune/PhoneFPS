@@ -34,6 +34,9 @@ public class HealthHandler : MonoBehaviour {
             {
                 GameObject.Find("GameManager").GetComponent<GameManager>().EnemyKilled(20);
                 Destroy(this.gameObject);
+            }else
+            {
+                GameObject.Find("UImanager").GetComponent<UIManager>().GameOver();
             }
             
         }

@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour {
 
     public GameObject[] spawnPoints;
 
+	public int initaialNumberOfEnemies;
     //Variables to hold things within the level
     int enemiesInLevel;
     int enemiesKilled;
@@ -52,7 +53,7 @@ public class GameManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        enemiesToSpawnNextRound = 10;
+		enemiesToSpawnNextRound = initaialNumberOfEnemies;
 
         UIManager UI = GameObject.Find("UImanager").GetComponent<UIManager>();
         UI.UpdateEnemiesLeft(enemiesInLevel);

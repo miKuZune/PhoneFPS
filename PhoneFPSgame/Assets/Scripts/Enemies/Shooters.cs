@@ -17,10 +17,14 @@ public class Shooters : MonoBehaviour {
     public GameObject bullet;
     public float fireRate;
 
+	float timeSinceLastFire;
+
     bool isShooting;
+	bool isRunningAway;
 	// Use this for initialization
 	void Start () {
         isShooting = false;
+		isRunningAway = false;
         SM = new StateMachine();
         player = GameObject.FindGameObjectWithTag("Player");
         SM.ChangeState(new RunAtPlayer(this.gameObject));
@@ -38,6 +42,37 @@ public class Shooters : MonoBehaviour {
         bulletShot.GetComponent<Bullet>().direction = dirToPlayer;
     }
 
+	bool CanSeePlayer()
+	{
+		bool canSee = false;
+
+		Vector3 toPlayer = player.transform.position - transform.position;
+		RaycastHit hitInfo;
+
+		if (Physics.Raycast (transform.position, toPlayer, out hitInfo)) 
+		{
+			if (hitInfo.transform.tag == player.tag) 
+			{
+				canSee = true;
+			}
+		}
+
+		return canSee;
+	}
+
+	bool IsTooCloseToPlayer()
+	{
+		bool tooClose = false;
+
+		float distToPlayer = Vector3.Distance (player.transform.position, transform.position);
+
+		if (distToPlayer < minShootDistance && CanSeePlayer()) {
+			tooClose = true;
+		}
+
+		return tooClose;
+	}
+
     bool InShootingRange()
     {
         bool isInRange = false;
@@ -47,6 +82,7 @@ public class Shooters : MonoBehaviour {
         {
             isInRange = true;
         }
+		Debug.Log (isInRange);
 
         return isInRange;
     }
@@ -56,14 +92,29 @@ public class Shooters : MonoBehaviour {
     {
         if(InShootingRange() && !isShooting)
         {
-            SM.ChangeState(new ShootAtPlayer(this.gameObject));
-            isShooting = true;
-        }else if(!InShootingRange() && isShooting)
-        {
-            SM.ChangeState(new RunAtPlayer(this.gameObject));
-            isShooting = false;
+			if (CanSeePlayer () && timeSinceLastFire >= fireRate) {
+				//SM.ChangeState(new ShootAtPlayer(this.gameObject));
+				Shoot();
+				isShooting = true;
+				isRunningAway = false;
+				timeSinceLastFire = 0;
+			}
+			timeSinceLastFire += Time.deltaTime;
         }
 
+		if(!InShootingRange() && isShooting)
+        {
+			SM.ChangeState(new RunAtPlayer(this.gameObject));
+			isShooting = false;
+			isRunningAway = false;
+        }
+
+		else if (IsTooCloseToPlayer () && !isRunningAway) 
+		{
+			SM.ChangeState (new RunFromPlayer (this.gameObject));
+			isShooting = false;
+			isRunningAway = true;
+		}
 
         SM.Update();
 	}

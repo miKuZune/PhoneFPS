@@ -57,10 +57,12 @@
      <Compile Include="Assets\Scripts\StateMachine.cs" />
      <Compile Include="Assets\Scripts\States\Explode.cs" />
      <Compile Include="Assets\Scripts\States\RunAtPlayer.cs" />
+     <Compile Include="Assets\Scripts\States\RunFromPlayer.cs" />
      <Compile Include="Assets\Scripts\States\ShootAtPlayer.cs" />
      <Compile Include="Assets\Scripts\States\Wander.cs" />
      <Compile Include="Assets\Scripts\UI\UIManager.cs" />
      <Compile Include="Assets\Scripts\UI\VirtualJoystick.cs" />
+     <Compile Include="Assets\TeleporterEffectAnimator.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
